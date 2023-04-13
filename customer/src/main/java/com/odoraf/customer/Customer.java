@@ -8,9 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
 
+/*
+Lombok's annotations, used to get rid of boilerplate code
+
+
+ */
 @Data
 @Builder
-@Entity
+@Entity // This class represents a Database entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
