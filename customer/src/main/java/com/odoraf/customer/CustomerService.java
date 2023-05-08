@@ -21,8 +21,9 @@ public class CustomerService {
         // TODO: Check if email not taken
         customerRepository.saveAndFlush(customer);
         //TODO: Check if fraudster
+
         FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/fraud-check/{customerId}",
+                "http://FRAUD/api/v1/fraud-check/{customerId}", // Update localhost to name eureka service
                 FraudCheckResponse.class,
                 customer.getId()
         );
