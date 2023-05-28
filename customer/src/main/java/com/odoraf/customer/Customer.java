@@ -29,7 +29,6 @@ public class Customer {
             strategy = GenerationType.SEQUENCE,
             generator = "customer_id_sequence"
     )
-
     private Integer id;
     private String firstName;
     private String lastName;

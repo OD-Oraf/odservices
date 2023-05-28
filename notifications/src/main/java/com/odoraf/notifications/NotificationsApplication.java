@@ -1,4 +1,4 @@
-package com.odoraf.customer;
+package com.odoraf.notifications;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,8 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients(
         basePackages = "com.odoraf.clients"
 )
-public class CustomerApplication {
+public class NotificationsApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(CustomerApplication.class, args);
+        SpringApplication.run(NotificationsApplication.class, args);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.odoraf.fraud;
+package com.odoraf.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 

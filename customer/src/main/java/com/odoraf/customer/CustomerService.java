@@ -1,5 +1,9 @@
 package com.odoraf.customer;
 
+import com.odoraf.clients.fraud.FraudCheckResponse;
+import com.odoraf.clients.fraud.FraudClient;
+import com.odoraf.clients.notification.NotificationClient;
+import com.odoraf.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,6 +14,8 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -22,16 +28,22 @@ public class CustomerService {
         customerRepository.saveAndFlush(customer);
         //TODO: Check if fraudster
 
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://FRAUD/api/v1/fraud-check/{customerId}", // Update localhost to name eureka service
-                FraudCheckResponse.class,
-                customer.getId()
-        );
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
 
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
 
         // TODO: Send notification
+        notificationClient.sendNotification(
+                new NotificationRequest(
+                        customer.getId(),
+                        customer.getEmail(),
+                        String.format("Hi %s, welcome to OdServices",
+                                customer.getFirstName())
+                )
+        );
+
+
     }
 }

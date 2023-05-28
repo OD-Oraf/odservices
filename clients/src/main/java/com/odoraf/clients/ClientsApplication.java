@@ -1,4 +1,4 @@
-package com.example.clients;
+package com.odoraf.clients;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
