@@ -11,6 +11,7 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
+    // Build notification entity to store in DB
     public void send(NotificationRequest notificationRequest) {
         Notification notification = Notification.builder()
                 .toCustomerId(notificationRequest.toCustomerId())

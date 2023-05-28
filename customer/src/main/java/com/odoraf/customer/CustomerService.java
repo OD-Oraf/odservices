@@ -34,7 +34,7 @@ public class CustomerService {
             throw new IllegalStateException("fraudster");
         }
 
-        // TODO: Send notification
+
         notificationClient.sendNotification(
                 new NotificationRequest(
                         customer.getId(),

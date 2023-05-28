@@ -13,8 +13,10 @@ public class NotificationController {
 
     private NotificationService notificationService;
 
+
     @PostMapping
     public void sendNotification(@RequestBody NotificationRequest notificationRequest) {
+        log.info("New notification...{}", notificationRequest);
         notificationService.send(notificationRequest);
     }
 
