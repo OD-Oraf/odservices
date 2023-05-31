@@ -34,7 +34,7 @@ public class CustomerService {
             throw new IllegalStateException("fraudster");
         }
 
-
+        // TODO: Make async, add to queue
         notificationClient.sendNotification(
                 new NotificationRequest(
                         customer.getId(),
