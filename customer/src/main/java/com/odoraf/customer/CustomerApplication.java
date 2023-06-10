@@ -5,7 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+// Scan packages needed to inject producer
+@SpringBootApplication(
+        scanBasePackages = {
+            "com.odoraf.customer",
+            "com.odoraf.amqp"
+        }
+)
 @EnableEurekaClient
 @EnableFeignClients(
         basePackages = "com.odoraf.clients"
