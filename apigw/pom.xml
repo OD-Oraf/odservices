@@ -11,12 +11,11 @@
 	<groupId>com.odoraf</groupId>
 	<artifactId>apigw</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>apigw</name>
 
+	<name>apigw</name>
+	<packaging>jar</packaging>
 	<description>apigw</description>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
+
 
 	<dependencies>
 		<dependency>
