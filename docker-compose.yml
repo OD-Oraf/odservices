@@ -26,7 +26,7 @@ services:
       - spring
     depends_on:
       - zipkin
-      -
+
   apigw:
     image: odoraf/apigw:latest
     container_name: apigw
@@ -39,7 +39,6 @@ services:
     depends_on:
       - zipkin
       - eureka-server
-      -
   customer:
     image: odoraf/customer:latest
     container_name: customer
@@ -55,12 +54,12 @@ services:
       - eureka-server
       - postgres
       - rabbitmq
-      -
+
   fraud:
     image: odoraf/fraud:latest
     container_name: fraud
     ports:
-      - "8081:8081"euraka-server
+      - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
