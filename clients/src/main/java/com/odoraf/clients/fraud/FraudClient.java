@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 // Open Feign - Used to call 3rd party API's, kinda like postman but in you application
-@FeignClient(value = "fraud")
+@FeignClient(
+        value = "fraud",
+        url = "${clients.fraud.url}"
+)
 public interface FraudClient {
     // Interface to target fraud controller
     @GetMapping(path = "api/v1/fraud-check/{customerId}")
