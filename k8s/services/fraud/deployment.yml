@@ -26,7 +26,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: DB_PASSWORD
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://SERVER_URL/fraud
+              value: jdbc:postgresql://lin-24718-9092-pgsql-primary.servers.linodedb.net/fraud
       restartPolicy: Always
   selector:
     matchLabels:

@@ -1,13 +1,18 @@
 #!groovy​
 
-// properties([
-//   parameters([
-//         string(name: 'branchName', defaultValue: 'dev', description: 'Branch name')
-//   ])
-// ])
+ properties([
+   parameters([
+//         string(name: 'branchName', defaultValue: 'dev', description: 'Branch name'),
+         booleanParam (defaultValue: false, name: 'deployCustomer', description: 'Check to deploy customer service',),
+         booleanParam (defaultValue: false, name: 'check to deploy fraud service'),
+         booleanParam (defaultValue: false, name: 'check to deploy notification service'),
+   ])
+ ])
 
 pipeline {
     agent any
+
+
 
     stages {
         stage('Git-Clone') {
