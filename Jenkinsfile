@@ -3,9 +3,9 @@
  properties([
    parameters([
 //         string(name: 'branchName', defaultValue: 'dev', description: 'Branch name'),
-         booleanParam (defaultValue: false, name: 'deployCustomer', description: 'Check to deploy customer service',),
-         booleanParam (defaultValue: false, name: 'check to deploy fraud service'),
-         booleanParam (defaultValue: false, name: 'check to deploy notification service'),
+         booleanParam (defaultValue: false, name: 'deployCustomer', description: 'Check to deploy customer service'),
+         booleanParam (defaultValue: false, name: 'deployFraud',  description: 'check to deploy fraud service'),
+         booleanParam (defaultValue: false, name: 'deployNotification', description: 'check to deploy notification service'),
    ])
  ])
 
@@ -16,6 +16,7 @@ pipeline {
 
     stages {
         stage('Git-Clone') {
+
             steps {
                 checkout([$class: 'GitSCM',
                 branches: [[name: '*/develop']],
@@ -47,19 +48,37 @@ pipeline {
         // }
 
         stage('Deploy-Customer-Service') {
+            when {
+                expression {
+                    "${deployCustomer}" == true;
+                }
+            }
             steps {
+                sh "cd customer/ && mvn package -P build-docker-image"
                 sh 'kubectl apply -f k8s/services/customer'
             }
         }
 
         stage('Deploy-Fraud-Service') {
+            when {
+                expression {
+                    "${deployFraud}" == true;
+                }
+            }
             steps {
+                sh "cd fraud/ && mvn package -P build-docker-image"
                 sh 'kubectl apply -f k8s/services/fraud'
             }
         }
 
         stage('Deploy-Notification-Service') {
+            when {
+                expression {
+                    "${deployNotification}" == true;
+                }
+            }
             steps {
+                sh "cd notification/ && mvn package -P build-docker-image"
                 sh 'kubectl apply -f k8s/services/notification'
             }
         }
