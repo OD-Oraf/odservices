@@ -46,7 +46,14 @@ pipeline {
 
          stage('Package-Application') {
              steps {
-                 sh 'mvn install'
+                 withCredentials([usernamePassword(
+                         credentialsId: 'docker-login',
+                         passwordVariable: 'docker_password',
+                         usernameVariable: 'docker_username'
+                 )]) {
+                     sh "docker login -u ${docker_username} -p ${docker_password}"
+                     sh 'mvn install'
+                 }
              }
          }
 
@@ -59,6 +66,7 @@ pipeline {
             steps {
                 sh "cd customer/ && mvn package -P build-docker-image"
                 sh 'kubectl apply -f k8s/services/customer'
+
             }
         }
 
@@ -81,8 +89,8 @@ pipeline {
                 }
             }
             steps {
-                sh "cd notification/ && mvn package -P build-docker-image"
-                sh 'kubectl apply -f k8s/services/notification'
+                    sh "cd notification/ && mvn package -P build-docker-image"
+                    sh 'kubectl apply -f k8s/services/notification'
             }
         }
     }
