@@ -23,9 +23,12 @@ pipeline {
                 userRemoteConfigs: [[url: 'https://github.com/OD-Oraf/odservices.git']]])
             }
         }
-        stage('Set-Kubeconfig') {
+        stage('Set-Kubeconfig/JAVA_HOME') {
             steps {
                 sh 'export KUBECONFIG=/home/odservices-kubeconfig.yaml'
+//                sh 'export JAVA_HOME=~/jdk-17.0.8'
+                echo "${JAVA_HOME}"
+                sh "mvn -version"
             }
 
         }
@@ -41,16 +44,16 @@ pipeline {
             }
         }
 
-        // stage('Build-All-Images') {
-        //     steps {
-        //         sh 'mvn clean package -P build-docker-image'
-        //     }
-        // }
+         stage('Package-Application') {
+             steps {
+                 sh 'mvn clean package'
+             }
+         }
 
         stage('Deploy-Customer-Service') {
             when {
                 expression {
-                    "${deployCustomer}" == true;
+                    "${deployCustomer}" == "true";
                 }
             }
             steps {
@@ -62,7 +65,7 @@ pipeline {
         stage('Deploy-Fraud-Service') {
             when {
                 expression {
-                    "${deployFraud}" == true;
+                    "${deployFraud}" == "true";
                 }
             }
             steps {
@@ -74,7 +77,7 @@ pipeline {
         stage('Deploy-Notification-Service') {
             when {
                 expression {
-                    "${deployNotification}" == true;
+                    "${deployNotification}" == "true";
                 }
             }
             steps {
