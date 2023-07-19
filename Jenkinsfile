@@ -23,7 +23,7 @@ pipeline {
                 userRemoteConfigs: [[url: 'https://github.com/OD-Oraf/odservices.git']]])
             }
         }
-        stage('Set-Kubeconfig/JAVA_HOME') {
+        stage('Set-Kubeconfig') {
             steps {
                 sh 'export KUBECONFIG=/home/odservices-kubeconfig.yaml'
 //                sh 'export JAVA_HOME=~/jdk-17.0.8'
@@ -46,7 +46,7 @@ pipeline {
 
          stage('Package-Application') {
              steps {
-                 sh 'mvn clean package'
+                 sh 'mvn install'
              }
          }
 
