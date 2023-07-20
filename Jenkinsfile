@@ -37,9 +37,10 @@ pipeline {
         stage('Inject-Secrets') {
             steps {
                 withCredentials([string(credentialsId: 'db-pass', variable: 'postgres_pass')]) {
-                    sh "sed 's/DB_PASSWORD/${postgres_pass}/' k8s/services/customer/deployment.yml"
-                    sh "sed 's/DB_PASSWORD/${postgres_pass}/' k8s/services/fraud/deployment.yml"
-                    sh "sed 's/DB_PASSWORD/${postgres_pass}/' k8s/services/notification/deployment.yml"
+                    sh "sed -i 's/DB_PASSWORD/${postgres_pass}/' k8s/services/customer/deployment.yml"
+                    sh "sed -i 's/DB_PASSWORD/${postgres_pass}/' k8s/services/fraud/deployment.yml"
+                    sh "sed -i 's/DB_PASSWORD/${postgres_pass}/' k8s/services/notification/deployment.yml"
+
                 }
             }
         }
