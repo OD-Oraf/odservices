@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.regex.Pattern;
+
 @Service
 @AllArgsConstructor
 public class CustomerService {
@@ -19,6 +21,12 @@ public class CustomerService {
     private final NotificationClient notificationClient;
     private RabbitMQMessageProducer rabbitMQMessageProducer;
 
+    public static boolean isValidEmail(String emailAddress) {
+        String regexPattern = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+        return Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
+    }
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -26,9 +34,15 @@ public class CustomerService {
                 .email(request.email())
                 .build();
         // TODO: Check if email valid
-        // TODO: Check if email not taken
+        if (!isValidEmail(request.email())) {
+            throw new RuntimeException("Invalid Email");
+        }
         // Save customer to DB
-        customerRepository.saveAndFlush(customer);
+        if (customerRepository.existsByEmail(request.email())) {
+            throw new RuntimeException("User with that email already exists");
+        } else {
+            customerRepository.saveAndFlush(customer);
+        }
 
         // Send request to service for fraud check
         FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
