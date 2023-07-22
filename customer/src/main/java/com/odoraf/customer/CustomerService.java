@@ -28,11 +28,6 @@ public class CustomerService {
                 .matches();
     }
     public void registerCustomer(CustomerRegistrationRequest request) {
-        Customer customer = Customer.builder()
-                .firstName(request.firstName())
-                .lastName(request.lastName())
-                .email(request.email())
-                .build();
         // TODO: Check if email valid
         if (!isValidEmail(request.email())) {
             throw new RuntimeException("Invalid Email");
@@ -40,17 +35,23 @@ public class CustomerService {
         // Save customer to DB
         if (customerRepository.existsByEmail(request.email())) {
             throw new RuntimeException("User with that email already exists");
-        } else {
-            customerRepository.saveAndFlush(customer);
         }
 
         // Send request to service for fraud check
-        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(request.email());
 
         // Throw error if customer is fraudulent
         if (fraudCheckResponse.isFraudster()) {
-            throw new IllegalStateException("fraudster");
+            throw new RuntimeException("This email has been flagged for fraud");
         }
+
+        Customer customer = Customer.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .build();
+
+        customerRepository.saveAndFlush(customer);
 
         // Make async, add to queue
         NotificationRequest notificationRequest = new NotificationRequest(
@@ -65,8 +66,6 @@ public class CustomerService {
                 "internal.exchange",
                 "internal.notification.routing-key"
         );
-
-
 
     }
 }
