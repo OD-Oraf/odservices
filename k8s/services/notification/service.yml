@@ -4,7 +4,7 @@ metadata:
   name: notification
 spec:
   selector:
-    app: notificatio2
+    app: notification
   ports:
     - port: 80
       targetPort: 8082

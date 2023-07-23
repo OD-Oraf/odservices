@@ -18,6 +18,8 @@ import javax.ws.rs.POST;
 public class FraudController {
     private final FraudCheckService fraudCheckService;
 
+    // TODO: Update existing customer from valid to fraudster and vice-versa
+
     @GetMapping(path = "{email}")
     public FraudCheckResponse isFraudster(
             @PathVariable("email") String email

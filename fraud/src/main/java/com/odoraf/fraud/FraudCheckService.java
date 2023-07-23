@@ -13,7 +13,7 @@ public class FraudCheckService {
 
     private final FraudCheckHistoryRepository fraudCheckHistoryRepository;
 
-public boolean isFraudulentCustomer(String email) {
+    public boolean isFraudulentCustomer(String email) {
         /*
             If fraudCheck = true, email was registered as fraudster. If registered as customer,
             the customer service would throw error for duplicate email address so the request would never make it to
