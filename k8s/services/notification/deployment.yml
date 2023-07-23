@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: notification
-          image: odoraf/notification:latest
+          image: odoraf/notification:0.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
