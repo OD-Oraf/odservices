@@ -10,7 +10,7 @@
 
     <groupId>com.odoraf</groupId>
     <artifactId>fraud</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <name>fraud</name>
     <description>fraud</description>
