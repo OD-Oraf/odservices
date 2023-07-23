@@ -27,6 +27,7 @@ public class CustomerService {
                 .matcher(emailAddress)
                 .matches();
     }
+
     public void registerCustomer(CustomerRegistrationRequest request) {
         // TODO: Check if email valid
         if (!isValidEmail(request.email())) {
