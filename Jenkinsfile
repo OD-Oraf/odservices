@@ -66,6 +66,7 @@ pipeline {
             }
             steps {
                 sh "cd customer/ && mvn package -P build-docker-image"
+                sh "docker pull odoraf/customer:latest"
                 sh 'kubectl apply -f k8s/services/customer'
 
             }
@@ -79,6 +80,7 @@ pipeline {
             }
             steps {
                 sh "cd fraud/ && mvn package -P build-docker-image"
+                sh "docker pull odoraf/fraud:latest"
                 sh 'kubectl apply -f k8s/services/fraud'
             }
         }
@@ -91,6 +93,7 @@ pipeline {
             }
             steps {
                     sh "cd notification/ && mvn package -P build-docker-image"
+                    sh "docker pull odoraf/notification:latest"
                     sh 'kubectl apply -f k8s/services/notification'
             }
         }
